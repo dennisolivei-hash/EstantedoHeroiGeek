@@ -338,6 +338,88 @@
     color:var(--parchment-dim);
     letter-spacing:0.03em;
   }
+
+  /* ---------- quadro de mensagens ---------- */
+  .message-board{
+    width:100%;
+    margin-top:40px;
+    padding:22px 20px;
+    border-radius:var(--radius);
+    background:rgba(27,44,78,0.55);
+    border:1px solid rgba(205,162,63,0.3);
+    box-shadow:0 10px 24px -12px rgba(0,0,0,0.6);
+    backdrop-filter:blur(6px);
+    box-sizing:border-box;
+  }
+  .message-board-title{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--brass-bright);
+    margin:0 0 8px;
+    text-align:center;
+  }
+  .message-board-sub{
+    margin:0 0 16px;
+    font-size:12.5px;
+    line-height:1.5;
+    color:var(--parchment-dim);
+    text-align:center;
+  }
+  .message-form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .message-form input,
+  .message-form textarea{
+    width:100%;
+    box-sizing:border-box;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid rgba(205,162,63,0.3);
+    background:rgba(239,228,200,0.06);
+    color:var(--parchment);
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    resize:vertical;
+  }
+  .message-form input::placeholder,
+  .message-form textarea::placeholder{ color:var(--parchment-dim); }
+  .message-form input:focus,
+  .message-form textarea:focus{
+    outline:none;
+    border-color:var(--brass-bright);
+    box-shadow:0 0 0 1px rgba(232,200,115,0.35);
+  }
+  .message-submit{
+    margin-top:4px;
+    padding:13px 20px;
+    border-radius:10px;
+    border:1px solid rgba(205,162,63,0.4);
+    background:linear-gradient(180deg, var(--brass-bright) 0%, var(--brass) 100%);
+    color:var(--ink);
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .message-submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px -10px rgba(0,0,0,0.6);
+  }
+  .message-form-note{
+    margin:10px 0 0;
+    font-size:11px;
+    color:var(--parchment-dim);
+    text-align:center;
+    line-height:1.5;
+  }
 </style>
 </head>
 <body>
@@ -349,6 +431,7 @@
     <ul class="supporters-list" id="supporters-list">
       <li>Gustavo Rocha de Oliveira</li>
       <li>Isabelle Monteiro</li>
+      <li>Grabrielle Rodrigues</li>
       <!-- Para adicionar um novo apoiador, copie a linha acima e troque o nome -->
     </ul>
     <p class="supporters-note">Obrigado por apoiar a Estante do Herói Geek!</p>
@@ -417,6 +500,17 @@
 
     </nav>
 
+    <section class="message-board" aria-label="Deixe uma mensagem para o canal">
+      <h2 class="message-board-title">Deixe sua Mensagem</h2>
+      <p class="message-board-sub">Sugestão de vídeo, agradecimento ou qualquer recado — escreva aqui.</p>
+      <form id="message-form" class="message-form">
+        <input type="text" id="message-name" name="name" placeholder="Seu nome (opcional)" maxlength="60">
+        <textarea id="message-text" name="message" placeholder="Sua mensagem..." maxlength="600" rows="4" required></textarea>
+        <button type="submit" class="message-submit">Enviar mensagem</button>
+      </form>
+      <p class="message-form-note">Ao enviar, seu app de e-mail abre com a mensagem já pronta para a Estante do Herói Geek.</p>
+    </section>
+
     <footer>
       <div class="crest-mini">Estante do Herói Geek</div>
       Cinema &middot; HQs &middot; Games &middot; Tecnologia &middot; Colecionismo
@@ -429,7 +523,7 @@
     <h2>Apoie via Pix</h2>
     <div class="pix-card">
       <div class="pix-qr-box" id="pix-qr-box" aria-label="QR Code Pix"></div>
-      <p class="pix-caption">Apoie o canal com qualquer valor e ganhe seu nome de agradecimento nos vídeos.</p>
+      <p class="pix-caption">Apoie o canal com qualquer valor e tenha seu nome nos créditos dos vídeos.</p>
     </div>
   </aside>
 
@@ -2830,6 +2924,24 @@ var qrcode = function() {
   var box = document.getElementById('pix-qr-box');
   if (box) renderQr(payload, box);
 
+})();
+</script>
+
+<script>
+(function(){
+  var form = document.getElementById('message-form');
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nameEl = document.getElementById('message-name');
+    var msgEl = document.getElementById('message-text');
+    var name = (nameEl.value || '').trim() || 'Um herói geek';
+    var msg = (msgEl.value || '').trim();
+    if(!msg) return;
+    var subject = 'Mensagem via Link Bio - Estante do Herói Geek';
+    var body = 'De: ' + name + '\n\n' + msg;
+    window.location.href = 'mailto:dennisolivei@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
 })();
 </script>
 
