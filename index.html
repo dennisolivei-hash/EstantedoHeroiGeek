@@ -268,6 +268,7 @@
     border:1px solid rgba(205,162,63,0.3);
     box-shadow:0 10px 24px -12px rgba(0,0,0,0.6);
     backdrop-filter:blur(6px);
+    position:relative;
   }
   .side-panel h2{
     font-family:'Cinzel',serif;
@@ -304,12 +305,118 @@
     text-align:center;
     line-height:1.5;
   }
+  .supporters-edit-btn{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:20px;
+    height:20px;
+    padding:0;
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    line-height:20px;
+    text-align:center;
+    letter-spacing:0;
+    color:var(--parchment-dim);
+    background:transparent;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    opacity:0.32;
+    transition:opacity .2s ease, color .2s ease, background .2s ease;
+  }
+  .supporters-edit-btn:hover{
+    opacity:0.9;
+    color:var(--brass-bright);
+    background:rgba(205,162,63,0.14);
+  }
+  .supporters-edit-btn.active{
+    position:static;
+    display:block;
+    width:auto;
+    height:auto;
+    margin:14px auto 0;
+    padding:6px 14px;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    color:var(--brass-bright);
+    background:rgba(205,162,63,0.14);
+    border:1px solid rgba(205,162,63,0.35);
+    border-radius:8px;
+    opacity:1;
+  }
+  .supporters-edit-btn.active:hover{
+    background:rgba(205,162,63,0.22);
+  }
+  .supporters-list li{
+    position:relative;
+    padding-right:10px;
+  }
+  .supporters-list .supporter-remove{
+    display:none;
+    position:absolute;
+    top:50%;
+    right:6px;
+    transform:translateY(-50%);
+    width:20px;
+    height:20px;
+    line-height:18px;
+    text-align:center;
+    border-radius:50%;
+    background:var(--red-banner);
+    color:var(--parchment);
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+    padding:0;
+  }
+  .supporters-list.editing li{ padding-right:34px; }
+  .supporters-list.editing .supporter-remove{ display:block; }
+  .supporters-add-row{
+    display:none;
+    gap:8px;
+    margin-top:10px;
+  }
+  .supporters-add-row.visible{ display:flex; }
+  .supporters-add-row input{
+    flex:1;
+    min-width:0;
+    padding:8px 10px;
+    border-radius:8px;
+    border:1px solid rgba(205,162,63,0.3);
+    background:rgba(239,228,200,0.06);
+    color:var(--parchment);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+  }
+  .supporters-add-row input::placeholder{ color:var(--parchment-dim); }
+  .supporters-add-row button{
+    padding:8px 12px;
+    border-radius:8px;
+    border:1px solid rgba(205,162,63,0.35);
+    background:var(--brass);
+    color:var(--ink);
+    font-weight:700;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
 
   /* ---------- pix ---------- */
   .pix-card{
     display:flex;
     flex-direction:column;
     align-items:center;
+  }
+  .pix-highlight{
+    margin:0 0 14px;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--brass-bright);
+    text-align:center;
+    letter-spacing:0.01em;
   }
   .pix-qr-box{
     width:168px;
@@ -463,11 +570,16 @@
     <aside class="side-panel">
     <h2>Apoiadores</h2>
     <ul class="supporters-list" id="supporters-list">
-      <li>Gustavo Rocha de Oliveira</li>
-      <li>Isabelle Monteiro</li>
-      <li>Grabrielle Rodrigues</li>
+      <li><span class="supporter-name">Gustavo Rocha de Oliveira</span><button type="button" class="supporter-remove" aria-label="Remover apoiador">&times;</button></li>
+      <li><span class="supporter-name">Isabelle Monteiro</span><button type="button" class="supporter-remove" aria-label="Remover apoiador">&times;</button></li>
+      <li><span class="supporter-name">Grabrielle Rodrigues</span><button type="button" class="supporter-remove" aria-label="Remover apoiador">&times;</button></li>
       <!-- Para adicionar um novo apoiador, copie a linha acima e troque o nome -->
     </ul>
+    <div class="supporters-add-row" id="supporters-add-row">
+      <input type="text" id="supporter-input" placeholder="Nome do novo apoiador" maxlength="60">
+      <button type="button" id="supporter-add-btn">Adicionar</button>
+    </div>
+    <button type="button" class="supporters-edit-btn" id="supporters-edit-btn" title="Editar apoiadores" aria-label="Editar apoiadores">&#9998;</button>
     <p class="supporters-note">Obrigado por apoiar a Estante do Herói Geek!</p>
     </aside>
 
@@ -546,6 +658,17 @@
         <span class="go" aria-hidden="true">&rarr;</span>
       </a>
 
+      <a class="plank" href="https://www.twitch.tv/estantedoheroigeek" target="_blank" rel="noopener noreferrer">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+        </span>
+        <span class="label">
+          <span class="name">Twitch</span>
+          <span class="handle">EstantedoHeroiGeek</span>
+        </span>
+        <span class="go" aria-hidden="true">&rarr;</span>
+      </a>
+
     </nav>
 
     <footer>
@@ -574,9 +697,9 @@
 
     <aside class="side-panel">
     <h2>Apoie via Pix</h2>
+    <p class="pix-highlight">Apoie o canal com qualquer valor</p>
     <div class="pix-card">
       <div class="pix-qr-box" id="pix-qr-box" aria-label="QR Code Pix"></div>
-      <p class="pix-caption">Apoie o canal com qualquer valor e tenha seu nome nos créditos dos vídeos.</p>
     </div>
     </aside>
   </div>
@@ -2995,6 +3118,150 @@ var qrcode = function() {
     var subject = 'Mensagem via Link Bio - Estante do Herói Geek';
     var body = 'De: ' + name + '\n\n' + msg;
     window.location.href = 'mailto:dennisolivei@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  });
+})();
+</script>
+
+<script>
+/* =========================================================
+   Edição de Apoiadores (armazenado localmente no navegador)
+   ========================================================= */
+(function(){
+  var STORAGE_KEY = 'ehg_supporters_v1';
+  var list = document.getElementById('supporters-list');
+  var editBtn = document.getElementById('supporters-edit-btn');
+  var addRow = document.getElementById('supporters-add-row');
+  var input = document.getElementById('supporter-input');
+  var addBtn = document.getElementById('supporter-add-btn');
+  if(!list || !editBtn) return;
+
+  function makeItem(name){
+    var li = document.createElement('li');
+    var span = document.createElement('span');
+    span.className = 'supporter-name';
+    span.textContent = name;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'supporter-remove';
+    btn.setAttribute('aria-label', 'Remover apoiador');
+    btn.innerHTML = '&times;';
+    li.appendChild(span);
+    li.appendChild(btn);
+    return li;
+  }
+
+  function readNames(){
+    var items = list.querySelectorAll('.supporter-name');
+    var names = [];
+    for (var i = 0; i < items.length; i++) names.push(items[i].textContent);
+    return names;
+  }
+
+  function renderNames(names){
+    list.innerHTML = '';
+    names.forEach(function(name){ list.appendChild(makeItem(name)); });
+  }
+
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(readNames())); }catch(e){}
+  }
+
+  // Carrega lista salva neste navegador, se existir
+  try{
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      var names = JSON.parse(saved);
+      if(Array.isArray(names) && names.length) renderNames(names);
+    }
+  }catch(e){}
+
+  list.addEventListener('click', function(e){
+    var target = e.target;
+    if(!target || !target.classList || !target.classList.contains('supporter-remove')) return;
+    var li = target.parentNode;
+    if(li && li.parentNode === list){
+      li.parentNode.removeChild(li);
+      save();
+    }
+  });
+
+  var ADMIN_HASH = '515b7decf6c7015d85978ea7267bc8587a68734b0ea5b98391fd468e356760d2';
+  var UNLOCK_KEY = 'ehg_supporters_unlocked';
+
+  function sha256Hex(text){
+    var enc = new TextEncoder().encode(text);
+    return crypto.subtle.digest('SHA-256', enc).then(function(buf){
+      var bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+    });
+  }
+
+  function isUnlocked(){
+    try{ return sessionStorage.getItem(UNLOCK_KEY) === '1'; }catch(e){ return false; }
+  }
+
+  function setUnlocked(){
+    try{ sessionStorage.setItem(UNLOCK_KEY, '1'); }catch(e){}
+  }
+
+  function enterEditMode(){
+    list.classList.add('editing');
+    addRow.classList.add('visible');
+    editBtn.classList.add('active');
+    editBtn.innerHTML = 'Concluir edição';
+    editBtn.title = 'Concluir edição';
+    editBtn.setAttribute('aria-label', 'Concluir edição');
+  }
+
+  function exitEditMode(){
+    list.classList.remove('editing');
+    addRow.classList.remove('visible');
+    editBtn.classList.remove('active');
+    editBtn.innerHTML = '&#9998;';
+    editBtn.title = 'Editar apoiadores';
+    editBtn.setAttribute('aria-label', 'Editar apoiadores');
+  }
+
+  editBtn.addEventListener('click', function(){
+    if(list.classList.contains('editing')){
+      exitEditMode();
+      return;
+    }
+    if(!crypto || !crypto.subtle){
+      window.alert('Seu navegador não suporta essa verificação de senha.');
+      return;
+    }
+    if(isUnlocked()){
+      enterEditMode();
+      return;
+    }
+    var pass = window.prompt('Digite a senha para editar os apoiadores:');
+    if(pass === null) return;
+    sha256Hex(pass).then(function(hash){
+      if(hash === ADMIN_HASH){
+        setUnlocked();
+        enterEditMode();
+      } else {
+        window.alert('Senha incorreta.');
+      }
+    });
+  });
+
+  function addSupporter(){
+    var name = (input.value || '').trim();
+    if(!name) return;
+    list.appendChild(makeItem(name));
+    input.value = '';
+    save();
+    input.focus();
+  }
+
+  addBtn.addEventListener('click', addSupporter);
+  input.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      addSupporter();
+    }
   });
 })();
 </script>
