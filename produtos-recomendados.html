@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produtos Recomendados — Estante do Herói Geek</title>
+<meta name="description" content="Produtos selecionados pela Estante do Herói Geek. Links de afiliado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0d1526;
+    --navy-mid:#16233f;
+    --navy-card:#1b2c4e;
+    --brass:#cda23f;
+    --brass-bright:#e8c873;
+    --brass-dark:#8a6a26;
+    --red-banner:#7c2230;
+    --red-bright:#a8323f;
+    --parchment:#efe4c8;
+    --parchment-dim:#b9ad8e;
+    --ink:#0b1320;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Inter',sans-serif;
+    color:var(--parchment);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(205,162,63,0.12), transparent 55%),
+      linear-gradient(180deg, rgba(13,21,38,0.90) 0%, rgba(10,17,32,0.93) 60%, rgba(7,11,20,0.97) 100%),
+      var(--navy-deep);
+    position:relative;
+  }
+
+  .wrap{
+    position:relative;
+    max-width:900px;
+    margin:0 auto;
+    padding:32px 20px 64px;
+  }
+
+  .back-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--parchment-dim);
+    text-decoration:none;
+    font-size:13px;
+    font-weight:600;
+    transition:color .18s ease;
+  }
+  .back-link:hover{ color:var(--brass-bright); }
+
+  .page-header{
+    margin:28px 0 30px;
+    text-align:center;
+  }
+  .page-header h1{
+    font-family:'Cinzel',serif;
+    font-size:clamp(26px, 5vw, 36px);
+    font-weight:900;
+    letter-spacing:0.02em;
+    margin:0 0 10px;
+    color:var(--brass-bright);
+    text-shadow:0 2px 10px rgba(0,0,0,0.5);
+  }
+  .page-header p{
+    margin:0 auto;
+    max-width:520px;
+    font-size:14px;
+    line-height:1.6;
+    color:var(--parchment-dim);
+  }
+
+  .ribbon{
+    margin:18px auto 0;
+    width:220px;
+    height:10px;
+    position:relative;
+  }
+  .ribbon::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:6px;
+    background:linear-gradient(90deg, transparent, var(--red-bright) 18%, var(--red-banner) 50%, var(--red-bright) 82%, transparent);
+    box-shadow:0 1px 0 rgba(255,255,255,0.08) inset;
+  }
+
+  .disclosure{
+    max-width:640px;
+    margin:22px auto 0;
+    padding:12px 16px;
+    border-radius:10px;
+    background:rgba(205,162,63,0.08);
+    border:1px solid rgba(205,162,63,0.25);
+    font-size:12px;
+    line-height:1.6;
+    color:var(--parchment-dim);
+    text-align:center;
+  }
+
+  .toolbar{
+    display:flex;
+    justify-content:center;
+    margin:22px 0 6px;
+  }
+  .edit-toggle{
+    position:relative;
+    width:26px;
+    height:26px;
+    padding:0;
+    font-size:12px;
+    line-height:26px;
+    text-align:center;
+    color:var(--parchment-dim);
+    background:transparent;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    opacity:0.35;
+    transition:opacity .2s ease, color .2s ease, background .2s ease;
+  }
+  .edit-toggle:hover{
+    opacity:0.9;
+    color:var(--brass-bright);
+    background:rgba(205,162,63,0.14);
+  }
+  .edit-toggle.active{
+    width:auto;
+    height:auto;
+    padding:8px 18px;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    color:var(--brass-bright);
+    background:rgba(205,162,63,0.14);
+    border:1px solid rgba(205,162,63,0.35);
+    border-radius:8px;
+    opacity:1;
+  }
+  .edit-toggle.active:hover{
+    background:rgba(205,162,63,0.22);
+  }
+
+  .add-panel{
+    display:none;
+    max-width:420px;
+    margin:0 auto 30px;
+    padding:18px;
+    border-radius:var(--radius);
+    background:rgba(27,44,78,0.55);
+    border:1px solid rgba(205,162,63,0.3);
+    box-shadow:0 10px 24px -12px rgba(0,0,0,0.6);
+  }
+  .add-panel.visible{ display:block; }
+  .add-panel h2{
+    font-family:'Cinzel',serif;
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--brass-bright);
+    margin:0 0 14px;
+    text-align:center;
+  }
+  .add-panel label{
+    display:block;
+    font-size:11.5px;
+    color:var(--parchment-dim);
+    margin:12px 0 5px;
+  }
+  .add-panel label:first-of-type{ margin-top:0; }
+  .add-panel input{
+    width:100%;
+    padding:9px 11px;
+    border-radius:8px;
+    border:1px solid rgba(205,162,63,0.3);
+    background:rgba(239,228,200,0.06);
+    color:var(--parchment);
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+  }
+  .add-panel input::placeholder{ color:var(--parchment-dim); }
+  .add-panel .hint{
+    margin:5px 0 0;
+    font-size:10.5px;
+    color:var(--parchment-dim);
+    line-height:1.5;
+  }
+  .add-panel .add-btn{
+    display:block;
+    width:100%;
+    margin-top:16px;
+    padding:11px 14px;
+    border-radius:8px;
+    border:1px solid rgba(205,162,63,0.4);
+    background:linear-gradient(180deg, var(--brass-bright) 0%, var(--brass) 100%);
+    color:var(--ink);
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+
+  .products-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+    gap:18px;
+  }
+
+  .product-card{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    border-radius:var(--radius);
+    overflow:hidden;
+    background:rgba(27,44,78,0.55);
+    border:1px solid rgba(205,162,63,0.3);
+    box-shadow:0 10px 24px -12px rgba(0,0,0,0.6);
+  }
+  .product-photo{
+    width:100%;
+    aspect-ratio:1 / 1;
+    background:var(--parchment);
+    display:block;
+    object-fit:cover;
+  }
+  .product-body{
+    padding:12px 14px 14px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .product-name{
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--parchment);
+    line-height:1.4;
+    margin:0;
+  }
+  .product-offer{
+    margin-top:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:9px 10px;
+    border-radius:8px;
+    background:rgba(205,162,63,0.14);
+    border:1px solid rgba(205,162,63,0.35);
+    color:var(--brass-bright);
+    text-decoration:none;
+    font-size:12.5px;
+    font-weight:700;
+    transition:background .18s ease, transform .18s ease;
+  }
+  .product-offer:hover{
+    background:rgba(205,162,63,0.24);
+    transform:translateY(-1px);
+  }
+  .products-grid.editing .product-offer{
+    pointer-events:none;
+    opacity:0.5;
+  }
+  .product-remove{
+    display:none;
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:24px;
+    height:24px;
+    line-height:22px;
+    text-align:center;
+    border-radius:50%;
+    background:var(--red-banner);
+    color:var(--parchment);
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+    padding:0;
+    z-index:2;
+    box-shadow:0 2px 8px rgba(0,0,0,0.5);
+  }
+  .products-grid.editing .product-remove{ display:block; }
+
+  .empty-state{
+    grid-column:1 / -1;
+    text-align:center;
+    padding:40px 20px;
+    color:var(--parchment-dim);
+    font-size:13.5px;
+    border-radius:var(--radius);
+    background:rgba(27,44,78,0.35);
+    border:1px dashed rgba(205,162,63,0.3);
+  }
+
+  .page-footer{
+    margin-top:48px;
+    text-align:center;
+  }
+  .crest-mini{
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--parchment-dim);
+  }
+
+  @media (max-width: 480px){
+    .products-grid{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <a class="back-link" href="index.html">&larr; Voltar para a Estante</a>
+
+  <div class="page-header">
+    <h1>Produtos Recomendados</h1>
+    <p>Itens selecionados especialmente para você — cinema, HQs, games e colecionismo.</p>
+    <div class="ribbon"></div>
+  </div>
+
+  <p class="disclosure">Esta página contém links de afiliado. Ao comprar através deles, a Estante do Herói Geek pode ganhar uma comissão, sem nenhum custo adicional para você.</p>
+
+  <div class="toolbar">
+    <button type="button" class="edit-toggle" id="edit-toggle" title="Editar produtos" aria-label="Editar produtos">&#9998;</button>
+  </div>
+
+  <div class="add-panel" id="add-panel">
+    <h2>Adicionar Produto</h2>
+    <label for="product-name-input">Nome do produto</label>
+    <input type="text" id="product-name-input" placeholder="Ex: Action Figure Colecionável" maxlength="80">
+
+    <label for="product-image-input">URL da foto do produto</label>
+    <input type="url" id="product-image-input" placeholder="https://...">
+    <p class="hint">No Mercado Livre, clique com o botão direito na foto do produto e escolha "Copiar endereço da imagem".</p>
+
+    <label for="product-url-input">Link de afiliado</label>
+    <input type="url" id="product-url-input" placeholder="https://...">
+
+    <button type="button" class="add-btn" id="product-add-btn">Adicionar produto</button>
+  </div>
+
+  <div class="products-grid" id="products-grid">
+    <!-- Os cards de produto são inseridos aqui pelo script abaixo -->
+  </div>
+
+  <div class="page-footer">
+    <div class="crest-mini">Estante do Herói Geek</div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   Produtos Recomendados (armazenado localmente no navegador)
+   ========================================================= */
+(function(){
+  var STORAGE_KEY = 'ehg_product_ads_v1';
+  var ADMIN_HASH = '515b7decf6c7015d85978ea7267bc8587a68734b0ea5b98391fd468e356760d2';
+  var UNLOCK_KEY = 'ehg_admin_unlocked';
+
+  var grid = document.getElementById('products-grid');
+  var editBtn = document.getElementById('edit-toggle');
+  var addPanel = document.getElementById('add-panel');
+  var nameInput = document.getElementById('product-name-input');
+  var imageInput = document.getElementById('product-image-input');
+  var urlInput = document.getElementById('product-url-input');
+  var addBtn = document.getElementById('product-add-btn');
+
+  var DEFAULT_PRODUCTS = [];
+
+  function makeCard(item){
+    var card = document.createElement('div');
+    card.className = 'product-card';
+
+    var img = document.createElement('img');
+    img.className = 'product-photo';
+    img.src = item.image;
+    img.alt = item.name;
+    img.loading = 'lazy';
+    card.appendChild(img);
+
+    var body = document.createElement('div');
+    body.className = 'product-body';
+
+    var name = document.createElement('p');
+    name.className = 'product-name';
+    name.textContent = item.name;
+    body.appendChild(name);
+
+    var offer = document.createElement('a');
+    offer.className = 'product-offer';
+    offer.href = item.url;
+    offer.target = '_blank';
+    offer.rel = 'noopener noreferrer sponsored';
+    offer.innerHTML = 'Ver oferta <span aria-hidden="true">&rarr;</span>';
+    body.appendChild(offer);
+
+    card.appendChild(body);
+
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'product-remove';
+    removeBtn.setAttribute('aria-label', 'Remover produto');
+    removeBtn.innerHTML = '&times;';
+    card.appendChild(removeBtn);
+
+    return card;
+  }
+
+  function updateEmptyState(){
+    var existingEmpty = grid.querySelector('.empty-state');
+    var hasCards = grid.querySelector('.product-card') !== null;
+    if(!hasCards && !existingEmpty){
+      var empty = document.createElement('p');
+      empty.className = 'empty-state';
+      empty.textContent = 'Nenhum produto recomendado no momento — volte em breve!';
+      grid.appendChild(empty);
+    } else if(hasCards && existingEmpty){
+      existingEmpty.parentNode.removeChild(existingEmpty);
+    }
+  }
+
+  function readItems(){
+    var cards = grid.querySelectorAll('.product-card');
+    var items = [];
+    for (var i = 0; i < cards.length; i++){
+      var img = cards[i].querySelector('.product-photo');
+      var name = cards[i].querySelector('.product-name');
+      var offer = cards[i].querySelector('.product-offer');
+      items.push({
+        image: img ? img.getAttribute('src') : '',
+        name: name ? name.textContent : '',
+        url: offer ? offer.href : ''
+      });
+    }
+    return items;
+  }
+
+  function renderItems(items){
+    var empty = grid.querySelector('.empty-state');
+    if(empty) empty.parentNode.removeChild(empty);
+    grid.innerHTML = '';
+    items.forEach(function(item){ grid.appendChild(makeCard(item)); });
+    updateEmptyState();
+  }
+
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(readItems())); }catch(e){}
+  }
+
+  // Carrega produtos salvos neste navegador, se existir; senão usa a lista padrão
+  var initialItems = DEFAULT_PRODUCTS;
+  try{
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      var parsed = JSON.parse(saved);
+      if(Array.isArray(parsed)) initialItems = parsed;
+    }
+  }catch(e){}
+  renderItems(initialItems);
+
+  grid.addEventListener('click', function(e){
+    var target = e.target;
+    if(!target || !target.classList || !target.classList.contains('product-remove')) return;
+    var card = target.closest ? target.closest('.product-card') : target.parentNode;
+    if(card && card.parentNode === grid){
+      card.parentNode.removeChild(card);
+      save();
+      updateEmptyState();
+    }
+  });
+
+  function sha256Hex(text){
+    var enc = new TextEncoder().encode(text);
+    return crypto.subtle.digest('SHA-256', enc).then(function(buf){
+      var bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+    });
+  }
+
+  function isUnlocked(){
+    try{ return sessionStorage.getItem(UNLOCK_KEY) === '1'; }catch(e){ return false; }
+  }
+
+  function setUnlocked(){
+    try{ sessionStorage.setItem(UNLOCK_KEY, '1'); }catch(e){}
+  }
+
+  function enterEditMode(){
+    grid.classList.add('editing');
+    addPanel.classList.add('visible');
+    editBtn.classList.add('active');
+    editBtn.innerHTML = 'Concluir edição';
+    editBtn.title = 'Concluir edição';
+    editBtn.setAttribute('aria-label', 'Concluir edição');
+  }
+
+  function exitEditMode(){
+    grid.classList.remove('editing');
+    addPanel.classList.remove('visible');
+    editBtn.classList.remove('active');
+    editBtn.innerHTML = '&#9998;';
+    editBtn.title = 'Editar produtos';
+    editBtn.setAttribute('aria-label', 'Editar produtos');
+  }
+
+  editBtn.addEventListener('click', function(){
+    if(grid.classList.contains('editing')){
+      exitEditMode();
+      return;
+    }
+    if(!crypto || !crypto.subtle){
+      window.alert('Seu navegador não suporta essa verificação de senha.');
+      return;
+    }
+    if(isUnlocked()){
+      enterEditMode();
+      return;
+    }
+    var pass = window.prompt('Digite a senha para editar os produtos:');
+    if(pass === null) return;
+    sha256Hex(pass).then(function(hash){
+      if(hash === ADMIN_HASH){
+        setUnlocked();
+        enterEditMode();
+      } else {
+        window.alert('Senha incorreta.');
+      }
+    });
+  });
+
+  function addProduct(){
+    var name = (nameInput.value || '').trim();
+    var image = (imageInput.value || '').trim();
+    var url = (urlInput.value || '').trim();
+    if(!name || !image || !url){
+      window.alert('Preencha nome, foto e link do produto.');
+      return;
+    }
+    if(!/^https?:\/\//i.test(image) || !/^https?:\/\//i.test(url)){
+      window.alert('Os links precisam começar com http:// ou https://');
+      return;
+    }
+    var empty = grid.querySelector('.empty-state');
+    if(empty) empty.parentNode.removeChild(empty);
+    grid.appendChild(makeCard({ name: name, image: image, url: url }));
+    nameInput.value = '';
+    imageInput.value = '';
+    urlInput.value = '';
+    save();
+    updateEmptyState();
+    nameInput.focus();
+  }
+
+  addBtn.addEventListener('click', addProduct);
+  [nameInput, imageInput, urlInput].forEach(function(el){
+    el.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        addProduct();
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
