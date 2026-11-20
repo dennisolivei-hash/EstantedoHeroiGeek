@@ -404,6 +404,43 @@
     white-space:nowrap;
   }
 
+  /* ---------- bônus membros: jogo ---------- */
+  .members-game{
+    margin:14px 0 0;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px dashed var(--brass-bright);
+    background:rgba(205,162,63,0.10);
+    text-align:center;
+  }
+  .members-game-tag{
+    display:inline-block;
+    font-size:9.5px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:2px 8px;
+    border-radius:20px;
+    background:var(--brass);
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .members-game-title{
+    font-family:'Cinzel',serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--brass-bright);
+    margin:2px 0 4px;
+  }
+  .members-game p{ margin:0 0 8px; font-size:12.5px; line-height:1.45; color:var(--parchment); }
+  .members-game-link{
+    display:inline-block;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--brass-bright);
+    text-decoration:underline;
+  }
+  .members-game-link:hover{ color:var(--parchment); }
   /* ---------- membros ---------- */
   .members-highlight{
     margin:0 0 14px;
@@ -812,6 +849,7 @@
             <li>Acesso antecipado a novos vídeos</li>
             <li>Chats ao vivo e salas de chat exclusivas</li>
             <li>Shorts exclusivos para membros</li>
+            <li>Jogo exclusivo: Jornada do Cavaleiro</li>
           </ul>
         </div>
         <div class="tier tier-expert">
@@ -828,6 +866,12 @@
             <li>+ Todos os benefícios do Iniciante</li>
           </ul>
         </div>
+      </div>
+      <div class="members-game">
+        <span class="members-game-tag">Bônus para membros</span>
+        <div class="members-game-title">&#9876;&#65039; Jornada do Cavaleiro</div>
+        <p>Virou membro, ganhou! Acesse o <strong>jogo exclusivo</strong> Jornada do Cavaleiro, uma aventura medieval em pixel art.</p>
+        <a class="members-game-link" href="https://jornadadocavaleiro.vercel.app/" target="_blank" rel="noopener noreferrer">Conhecer o jogo &rarr;</a>
       </div>
       <a class="members-cta" href="https://www.youtube.com/@EstantedoHer%C3%B3iGeek/join" target="_blank" rel="noopener noreferrer">Quero ser membro</a>
       <p class="members-note">Você será levado à página de assinatura do canal no YouTube.</p>
